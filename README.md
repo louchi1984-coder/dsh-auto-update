@@ -48,19 +48,14 @@ DeepSeek Harness 自动更新插件（host + client 双半区）。
 
 ## 安装
 
-官方通道：`dsh plugin --profile web add <包>`（`dsh plugin` 是 profile 目录里的
-pnpm 转发层，因此需要机器上装有 pnpm）。本地目录 / npm 包 / git 源均可：
+已发布至 npm。推荐直接安装：
 
 ```sh
-# 1) 安装依赖（等价于在 ~/.dsh/profiles/web 里 pnpm add）
-dsh plugin --profile web add "file:/path/to/dsh-auto-update"
-#    或从 git/npm 分发：dsh plugin --profile web add github:<owner>/<repo>
-
-# npm 发布后：
 dsh plugin --profile web add @louchi1984/dsh-auto-update
-
-# 2) 重启 dsh web（配置 HMR 有时可直接热挂载；不确定时重启最稳）
+dsh web
 ```
+
+`dsh plugin` 是 profile 目录里的 pnpm 转发层，因此需要机器上装有 pnpm。也可通过 GitHub 或本地目录安装，适合开发调试。
 
 ### Windows
 
