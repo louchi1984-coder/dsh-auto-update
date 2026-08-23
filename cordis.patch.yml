@@ -1,0 +1,3 @@
+- insert:
+    - id: dsh-auto-update
+      name: '@louchi1984/dsh-auto-update'

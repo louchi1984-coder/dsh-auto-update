@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dsh-auto-update · 入口状态图标预览</title>
+<style>
+  :root {
+    --ink: #0f1115; --muted: #61666b; --faint: #81858c;
+    --bg-page: #f9fafb; --bg-card: #fff; --hover: rgba(38,49,72,.06);
+    --amber: #f59e0b; --green: #22c55e; --red: #ec1313;
+  }
+  [data-dark] {
+    --ink: #f9fafb; --muted: #c9ccd1; --faint: #9aa0a6;
+    --bg-page: #1c1c1e; --bg-card: #2c2c2e; --hover: rgba(255,255,255,.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 20px 60px; background: var(--bg-page); color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .sub { font-size: 12.5px; color: var(--muted); margin-bottom: 24px; line-height: 1.7; }
+  .theme-toggle {
+    position: fixed; top: 20px; right: 20px; z-index: 10;
+    border: 1px solid var(--faint); background: var(--bg-card); color: var(--ink);
+    padding: 7px 14px; border-radius: 10px; font-size: 12.5px; cursor: pointer;
+  }
+  .theme-toggle:hover { background: var(--hover); }
+  .section-title { font-size: 13px; font-weight: 600; color: var(--muted); margin: 28px 0 12px; }
+
+  .row {
+    display: flex; align-items: center; gap: 18px;
+    background: var(--bg-card); border: 1px solid rgba(0,0,0,.08);
+    border-radius: 14px; padding: 14px 16px; margin-bottom: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  [data-dark] .row { border-color: rgba(255,255,255,.1); }
+
+  /* ── 真实入口样式（与插件 lib/client.js 一致） ── */
+  .entry {
+    flex: none; width: 68px; height: 68px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; color: var(--faint); position: relative;
+    transition: background .15s, color .15s, transform .1s;
+  }
+  .entry:hover { background: var(--hover); color: var(--ink); }
+  .entry:active { transform: scale(.92); }
+  .entry svg { display: block; }
+  .dot {
+    position: absolute; top: 10px; right: 10px; width: 14px; height: 14px;
+    border-radius: 50%; border: 2.5px solid var(--bg-card);
+  }
+  .dot.amber { background: var(--amber); animation: pulse 1.6s ease-in-out infinite; }
+  .dot.green { background: var(--green); }
+  .dot.red { background: var(--red); }
+  .spin-svg { animation: rotate .9s linear infinite; }
+  @keyframes rotate { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+  .meta { flex: 1; min-width: 0; }
+  .meta .name { font-size: 14px; font-weight: 600; }
+  .meta .desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-top: 3px; }
+  .real { flex: none; text-align: center; color: var(--faint); font-size: 11px; }
+  .real .entry-sm {
+    display: inline-flex; width: 34px; height: 34px; border-radius: 10px;
+    align-items: center; justify-content: center; color: var(--faint);
+    background: transparent; position: relative; margin-bottom: 4px;
+  }
+  .real .entry-sm:hover { background: var(--hover); color: var(--ink); }
+  .real .dot-sm {
+    position: absolute; top: 3px; right: 3px; width: 8px; height: 8px;
+    border-radius: 50%; border: 1.5px solid var(--bg-card);
+  }
+  .real .dot-sm.amber { background: var(--amber); animation: pulse 1.6s ease-in-out infinite; }
+  .real .dot-sm.green { background: var(--green); }
+  .real .dot-sm.red { background: var(--red); }
+  .real .spin-sm { animation: rotate .9s linear infinite; }
+  .footnote { font-size: 11.5px; color: var(--faint); line-height: 1.7; margin-top: 20px; }
+  code { background: var(--hover); padding: 1px 6px; border-radius: 6px; font-size: 11.5px; }
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="toggle">🌙 暗色 / 亮色</button>
+<div class="wrap">
+  <h1>自动更新插件 · 入口状态图标</h1>
+  <div class="sub">
+    与 <code>agent-ui/dsh-auto-update/lib/client.js</code> 中真实使用的 SVG 路径与 CSS 一致。
+    左列 68px 放大便于看形状（可 hover 看反馈），右列 34px 是真实尺寸（1:1）。
+    旋转与呼吸均为真实动画。
+  </div>
+
+  <div class="section-title">浅色主题（侧栏底 #f9fafb）</div>
+
+  <div class="row">
+    <div class="entry" title="已是最新">
+      <svg width="30" height="30" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.2"/><path d="M5.4 8.2l1.9 1.9 3.3-3.6"/></svg>
+    </div>
+    <div class="meta">
+      <div class="name">已是最新 · 对勾 ✓</div>
+      <div class="desc">状态健康。无状态点。点击展开卡片可手动「重新检查」。</div>
+    </div>
+    <div class="real">
+      <div class="entry-sm"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.2"/><path d="M5.4 8.2l1.9 1.9 3.3-3.6"/></svg></div>
+      <div>1:1</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="entry" title="有新版">
+      <svg width="30" height="30" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.3695 11.411L15.1234 12.8866C14.8869 14.3042 13.6603 15.3436 12.223 15.3436H3.77673C2.33958 15.3434 1.11272 14.3042 0.876343 12.8866L0.630249 11.411L2.05408 11.1747L2.29919 12.6493C2.41973 13.3713 3.04475 13.9001 3.77673 13.9003H12.223C12.9551 13.9002 13.58 13.3713 13.7006 12.6493L13.9457 11.1747L15.3695 11.411ZM8.72205 8.994C8.77717 8.93934 8.83792 8.88106 8.90271 8.81627L12.4828 5.23424L13.5043 6.25572L9.92224 9.8358C9.6395 10.1185 9.38763 10.3732 9.15857 10.5575C8.91892 10.7503 8.63953 10.9224 8.2865 10.9784C8.09711 11.0083 7.90363 11.0083 7.71423 10.9784C7.36106 10.9224 7.0809 10.7503 6.84119 10.5575C6.61215 10.3732 6.36022 10.1185 6.07751 9.8358L2.49646 6.25572L3.51697 5.23424L7.09705 8.81627C7.16219 8.88142 7.22331 8.94006 7.27869 8.99498V1.3065H8.72205V8.994Z" fill="currentColor"/></svg>
+      <span class="dot amber"></span>
+    </div>
+    <div class="meta">
+      <div class="name">有新版 · 下载箭头 ⬇</div>
+      <div class="desc">右上角琥珀呼吸点提示（「稍后」后隐藏）。点击展开详情卡片。</div>
+    </div>
+    <div class="real">
+      <div class="entry-sm"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.3695 11.411L15.1234 12.8866C14.8869 14.3042 13.6603 15.3436 12.223 15.3436H3.77673C2.33958 15.3434 1.11272 14.3042 0.876343 12.8866L0.630249 11.411L2.05408 11.1747L2.29919 12.6493C2.41973 13.3713 3.04475 13.9001 3.77673 13.9003H12.223C12.9551 13.9002 13.58 13.3713 13.7006 12.6493L13.9457 11.1747L15.3695 11.411ZM8.72205 8.994C8.77717 8.93934 8.83792 8.88106 8.90271 8.81627L12.4828 5.23424L13.5043 6.25572L9.92224 9.8358C9.6395 10.1185 9.38763 10.3732 9.15857 10.5575C8.91892 10.7503 8.63953 10.9224 8.2865 10.9784C8.09711 11.0083 7.90363 11.0083 7.71423 10.9784C7.36106 10.9224 7.0809 10.7503 6.84119 10.5575C6.61215 10.3732 6.36022 10.1185 6.07751 9.8358L2.49646 6.25572L3.51697 5.23424L7.09705 8.81627C7.16219 8.88142 7.22331 8.94006 7.27869 8.99498V1.3065H8.72205V8.994Z" fill="currentColor"/></svg><span class="dot-sm amber"></span></div>
+      <div>1:1</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="entry" title="安装中/重启中/检查中">
+      <svg class="spin-svg" width="30" height="30" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="26" stroke-dashoffset="8"><circle cx="8" cy="8" r="6"/></svg>
+    </div>
+    <div class="meta">
+      <div class="name">安装中 / 重启中 / 检查中 · spinner</div>
+      <div class="desc">圆弧 0.9s 旋转。无状态点。此时点击入口无响应（卡片自动弹出）。</div>
+    </div>
+    <div class="real">
+      <div class="entry-sm"><svg class="spin-sm" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="26" stroke-dashoffset="8"><circle cx="8" cy="8" r="6"/></svg></div>
+      <div>1:1</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="entry" title="异常">
+      <svg width="30" height="30" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.2"/><path d="M8 5v3.6"/><path d="M8 11.5v.1"/></svg>
+      <span class="dot red"></span>
+    </div>
+    <div class="meta">
+      <div class="name">异常 · 圆圈感叹号</div>
+      <div class="desc">右上角红点。点击展开卡片查看错误详情 / 重试。</div>
+    </div>
+    <div class="real">
+      <div class="entry-sm"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6.2"/><path d="M8 5v3.6"/><path d="M8 11.5v.1"/></svg><span class="dot-sm red"></span></div>
+      <div>1:1</div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    提示：把鼠标移到左侧放大图标上可看到 hover 反馈（底色 + 变深），这是真实入口的交互。
+    「安装完成」无独立图标：装完自动重启，重启后直接回到「已是最新」对勾。
+    右上角按钮可切换暗色主题对比观感。来源 SVG 路径与 <code>lib/client.js</code> 完全一致。
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById("toggle");
+  toggle.addEventListener("click", () => {
+    const dark = document.body.hasAttribute("data-dark");
+    if (dark) { document.body.removeAttribute("data-dark"); toggle.textContent = "🌙 暗色 / 亮色"; }
+    else { document.body.setAttribute("data-dark", ""); toggle.textContent = "☀️ 亮色 / 暗色"; }
+  });
+</script>
+</body>
+</html>

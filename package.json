@@ -1,0 +1,52 @@
+{
+  "name": "@louchi1984/dsh-auto-update",
+  "version": "0.2.0",
+  "description": "DeepSeek Harness 自动更新插件 — 定时扫描 npm 新版本、侧边栏状态提示、一键下载安装、自动重启生效（host + client 双半区，符合官方插件契约）。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "verify": "node scripts/verify-client.mjs && node --check lib/index.js && node --check lib/client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime"
+      ],
+      "platform": "web"
+    }
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "auto-update",
+    "updater",
+    "ui"
+  ],
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "README.md",
+    "cordis.patch.yml"
+  ],
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "devDependencies": {
+    "tsdown": "^0.22.14",
+    "typescript": "^5.9.3",
+    "unrun": "^0.3.1"
+  },
+  "license": "MIT"
+}
