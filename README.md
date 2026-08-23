@@ -8,6 +8,10 @@ DeepSeek Harness 自动更新插件（host + client 双半区）。
 
 ![DeepSeek Harness 中的自动更新卡片](docs/dsh-auto-update-running.png)
 
+入口位于**左侧边栏最底部、与“设置”同一行的右侧**；图标保持弱化，仅以状态符号提示。
+
+![自动更新入口位于设置右侧](docs/dsh-auto-update-entry-location.png)
+
 侧边栏入口用低干扰的状态图标提示更新进度：已是最新显示对勾；有新版显示下载图标和琥珀色呼吸点；检查、安装与重启中显示加载动画；异常显示感叹号和红点。点击入口可打开详情卡片，查看版本、检查时间、更新日志和安装操作。
 
 ## 功能
