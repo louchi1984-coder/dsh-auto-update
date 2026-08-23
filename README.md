@@ -2,6 +2,10 @@
 
 DeepSeek Harness 自动更新插件（host + client 双半区）。
 
+## 适用范围
+
+适用于标准的 **DeepSeek Harness Web UI**（`dsh web` / `web` profile）。插件只使用 Web UI 提供的 `webServer` 与 `slots` 服务，**不依赖任何特定原生壳**。原生壳若带有进程看门狗可以协助拉起更新后的 Web UI；没有壳时，插件会按原启动参数自行兜底重启。
+
 ## 界面预览
 
 ### 实际运行效果
@@ -37,9 +41,8 @@ DeepSeek Harness 自动更新插件（host + client 双半区）。
 - **一键安装**：以你的权限执行 `npm install -g @deepseek-ai/dsh@<tag>`
   （cache 指到 `$DSH_HOME/.npm-cache`，绕开本机 `~/.npm` 的 root 属主问题），实时展示安装日志。
 - **自动重启 + 自动刷新**：安装成功后 **3 秒自动重启** dsh web（不提供取消，装完即生效）。
-  **双平台**：macOS/Linux 用独立 `/bin/sh` 脚本 SIGTERM 优雅关停，等原生壳看门狗
-  （如 `dsh-harness-mac` 的 4s 看门狗）拉起，12s 没人拉起则用**原 argv 完全相同**的方式
-  `nohup` 兜底重启；Windows 用独立 PowerShell `.ps1`（`Stop-Process` 硬终止 + 12s 端口轮询 +
+  **双平台**：macOS/Linux 用独立 `/bin/sh` 脚本 SIGTERM 优雅关停；如果存在宿主看门狗会由它拉起，
+  否则 12 秒后以**原 argv 完全相同**的方式 `nohup` 兜底重启。Windows 用独立 PowerShell `.ps1`（`Stop-Process` 硬终止 + 12s 端口轮询 +
   `Start-Process` 原 argv 兜底——Windows 无 POSIX 信号，进程为硬终止，会话靠磁盘持久化恢复）。
   客户端在重启期间轮询新进程 PID，新实例就绪后**自动刷新页面**，无需手动刷新。
 
