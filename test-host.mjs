@@ -222,6 +222,8 @@ dispose();
 const clientSource = readFileSync(new URL("./lib/client.js", import.meta.url), "utf8");
 assert.match(SOURCE, /shell:\s*IS_WIN/, "POSIX 不应通过 shell 包装 npm，取消才能直接终止 npm");
 assert.match(clientSource, /const refreshMs = s && \(s\.status === "installing" \|\| s\.status === "installed" \|\| s\.status === "restarting"\) \? 1e3 : 15e3/, "安装/重启阶段必须每秒轮询状态");
+assert.match(clientSource, /const recheck = React\.useCallback\(async \(\) => \{/, "所有重新检查入口必须共用同一状态流程");
+assert.equal((clientSource.match(/onClick: recheck/g) || []).length, 2, "异常与已是最新两处重新检查都必须触发转圈状态");
 console.log("[8] install-cancel and reload polling contracts OK");
 
 console.log("OK: host half smoke test passed（5/5 路径）");
